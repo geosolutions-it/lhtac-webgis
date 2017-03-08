@@ -15,11 +15,14 @@ const {
     FEATURE_SELECTOR_ERROR,
     FEATURE_SELECTOR_RESET
 } = require('../actions/featureselector');
+const {
+    GRID_HEIGHT
+} = require('../actions/lhtac');
 const assign = require('object-assign');
 // since 4.0.0
 const {xorBy} = require('lodash');
 
-const initialState = {geometry: null, features: [], request: {}, error: false};
+const initialState = {gridHeight: 0, geometry: null, features: [], request: {}, error: false};
 
 function featureLoaded(add, newFeatures = [], previousFeatures) {
     return (add) ? xorBy(newFeatures, previousFeatures, (obj) => obj.id) : newFeatures;
@@ -56,6 +59,9 @@ function featureselector(state = initialState, action) {
         }
         case FEATURE_SELECTOR_RESET: {
             return initialState;
+        }
+        case GRID_HEIGHT: {
+            return assign({}, state, {gridHeight: action.height});
         }
         default:
             return state;

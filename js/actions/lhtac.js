@@ -17,6 +17,7 @@ const CLEAN_ZONE = 'CLEAN_ZONE';
 const LOADING_SELECT_ALL = 'LOADING_SELECT_ALL';
 const ZONE_CHANGE = 'ZONE_CHANGE';
 const RESET_ALL_FILTERS = 'LHTAC_RESET_ALL_FILTERS';
+const GRID_HEIGHT = 'GRID_HEIGHT';
 
 const {changeLayerProperties} = require('../../MapStore2/web/client/actions/layers');
 
@@ -123,6 +124,12 @@ function zoneChange(id, features, value) {
         features,
         value
 
+    };
+}
+function gridHeight(height) {
+    return {
+        type: GRID_HEIGHT,
+        height
     };
 }
 function zoneSelected(zone, value) {
@@ -242,6 +249,7 @@ module.exports = {
     CLEAN_GEOMETRY,
     CLEAN_ZONE,
     RESET_ALL_FILTERS,
+    GRID_HEIGHT,
     resetAllFilters,
     cleanZone,
     clearAll,
@@ -253,5 +261,6 @@ module.exports = {
     getNumberOfFeatures,
     zoneGetValues,
     downloadSelectedFeatures,
-    zoneSelected
+    zoneSelected,
+    gridHeight
 };
