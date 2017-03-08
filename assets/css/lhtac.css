@@ -219,7 +219,7 @@ button.list-group-item:hover {
     position: absolute;
     bottom: 0;
     background-color: white;
-    z-index: 2000;
+    z-index: 1999;
 }
 
 #south-panel .header{
