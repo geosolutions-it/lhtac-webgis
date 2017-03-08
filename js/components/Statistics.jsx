@@ -170,6 +170,7 @@ const Statistics = React.createClass({
                     <input type="hidden" name="version" value="1.1.0"/>
                     <input type="hidden" name="request" value="GetFeature"/>
                     <input type="hidden" name="service" value="WFS"/>
+                    <input type="hidden" name="srsName" value="EPSG:4326"/>
                     <input type="hidden" name="typeNames" value={this.props.activeLayer.name}/>
                     <input type="hidden" name="outputFormat" value={this.props.downloadFormat}/>
                 </form>
