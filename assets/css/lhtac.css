@@ -362,3 +362,8 @@ body{
     color: #ffffff;
     background-color: #078aa3;
 }
+
+.toc-group-title {
+    padding: 0;
+    margin-left: 24px;
+}
