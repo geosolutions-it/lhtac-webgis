@@ -31,7 +31,8 @@ const LhtacFeatureGrid = React.createClass({
         mapStateSource: React.PropTypes.string,
         changeMapStyle: React.PropTypes.func,
         gridHeight: React.PropTypes.func,
-        height: React.PropTypes.number
+        height: React.PropTypes.number,
+        mapSize: React.PropTypes.object
     },
     contextTypes: {
         messages: React.PropTypes.object
@@ -48,7 +49,8 @@ const LhtacFeatureGrid = React.createClass({
             mapStateSource: "",
             changeMapStyle: () => {},
             gridHeight: () => {},
-            height: 0
+            height: 0,
+            mapSize: {}
         };
     },
     shouldComponentUpdate(nextProps) {
@@ -59,7 +61,11 @@ const LhtacFeatureGrid = React.createClass({
             nextProps.style !== this.props.style || (!isEqual(nextProps.features, this.props.features)) || true);
     },
     componentDidUpdate(prevProps) {
-        this.props.gridHeight(this.props.style.height);
+
+        if (prevProps.mapSize.height !== this.props.mapSize.height) {
+            this.resizePanel();
+        }
+
         if (prevProps.height !== this.props.height) {
             this.props.changeMapStyle(this.props.mapStyle, this.props.mapStateSource);
         }
@@ -77,14 +83,14 @@ const LhtacFeatureGrid = React.createClass({
 
         return (this.props.features.length > 0) ? (
             <FeatureGrid
-                style={this.props.style}
+                style={{width: '100%', height: this.props.height}}
                 features={this.props.features}
                 selectFeatures={this.highligthFeatures}
                 highlightedFeatures={this.props.highlightedFeatures}
                 enableZoomToFeature={false}
                 columnDefs={newColumns}
                 excludeFields={this.props.activeLayer.excludeFields}
-                agGridOptions={{headerHeight: 48}}
+                agGridOptions={{headerHeight: 48, onModelUpdated: this.resizePanel}}
                 toolbar={{zoom: false, exporter: false, toolPanel: false}}
             />
             ) : null;
@@ -93,6 +99,10 @@ const LhtacFeatureGrid = React.createClass({
         let newFeatures = features.map(f => {return f.id; });
         this.highlighted = newFeatures;
         this.props.updateHighlighted(newFeatures, 'update');
+    },
+    resizePanel() {
+        let h = document.getElementById('south-panel').clientHeight - 5;
+        this.props.gridHeight(h);
     }
 });
 
@@ -102,13 +112,15 @@ const selector = createSelector([
     (state) => (state.map.present.style),
     (state) => (state.map.present.mapStateSource),
     (state) => (state.featureselector.gridHeight),
+    (state) => (state.map.present.size || {width: 0, height: 0}),
     lhtac],
-    (features, highlightedFeatures, mapStyle, mapStateSource, height, lhtacState)=> ({
+    (features, highlightedFeatures, mapStyle, mapStateSource, height, mapSize, lhtacState)=> ({
         features,
         highlightedFeatures,
         mapStyle,
         mapStateSource,
         height,
+        mapSize,
         activeLayer: lhtacState.activeLayer
     }));
 module.exports = connect(selector, {
