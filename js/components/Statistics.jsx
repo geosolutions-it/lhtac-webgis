@@ -29,7 +29,8 @@ const Statistics = React.createClass({
         downloadFormat: React.PropTypes.string,
         height: React.PropTypes.number,
         getNumberOfFeatures: React.PropTypes.func,
-        downloadSelectedFeatures: React.PropTypes.func
+        downloadSelectedFeatures: React.PropTypes.func,
+        srsName: React.PropTypes.string
     },
     getDefaultProps() {
         return {
@@ -50,7 +51,8 @@ const Statistics = React.createClass({
             highlightStatus: () => {},
             featureSelectorReset: () => {},
             getNumberOfFeatures: () => {},
-            downloadSelectedFeatures: () => {}
+            downloadSelectedFeatures: () => {},
+            srsName: 'EPSG:4326'
         };
     },
     getInitialState() {
@@ -71,6 +73,7 @@ const Statistics = React.createClass({
         let wfsUrl = this.baseUrl + "?service=WFS&request=getFeature&version=1.1.0";
         wfsUrl += "&typeNames=" + this.props.activeLayer.name;
         wfsUrl += "&outputFormat=" + this.props.downloadFormat;
+        wfsUrl += "&srsName=" + this.props.srsName;
 
         let selectedFilterLink = {};
         let highlightedFilterLink = {};
@@ -170,7 +173,7 @@ const Statistics = React.createClass({
                     <input type="hidden" name="version" value="1.1.0"/>
                     <input type="hidden" name="request" value="GetFeature"/>
                     <input type="hidden" name="service" value="WFS"/>
-                    <input type="hidden" name="srsName" value="EPSG:4326"/>
+                    <input type="hidden" name="srsName" value={this.props.srsName}/>
                     <input type="hidden" name="typeNames" value={this.props.activeLayer.name}/>
                     <input type="hidden" name="outputFormat" value={this.props.downloadFormat}/>
                 </form>
