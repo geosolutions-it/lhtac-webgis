@@ -367,3 +367,7 @@ body{
     padding: 0;
     margin-left: 24px;
 }
+
+#mapstore-shapefile-upload {
+    background-color: #fff;
+}
