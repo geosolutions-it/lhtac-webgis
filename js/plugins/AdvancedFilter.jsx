@@ -27,6 +27,8 @@ const {
     changeLhtacLayerFilter
 } = require('../actions/lhtac');
 
+const {changeLayerProperties} = require('../../MapStore2/web/client/actions/layers');
+
 const AdvancedFilterSelector = createSelector([
         lhtac,
         (state) => (state.queryform),
@@ -47,6 +49,7 @@ const AdvancedFilterSelector = createSelector([
 const AdvancedFilter = connect(AdvancedFilterSelector, {
     simpleFilterFieldUpdate,
     changeLayerProperties: changeLhtacLayerFilter,
+    showDefaultVisibility: changeLayerProperties.bind(null, "featureselector", {visibility: true}),
     toggleFilter,
     createFilterConfig
 })(require('../components/AdvancedFilter'));

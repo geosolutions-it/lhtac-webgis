@@ -154,6 +154,7 @@ function zoneSelected(zone, value) {
 
 function clearAll(zone) {
     return (dispatch) => {
+        dispatch(changeLayerProperties("featureselector", {visibility: true}));
         dispatch(cleanZone(zone.id));
     };
 }

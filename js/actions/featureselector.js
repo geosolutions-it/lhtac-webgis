@@ -14,6 +14,7 @@ const FEATURE_SELECTOR_RESET = 'FEATURE_SELECTOR_RESET';
 const uuid = require('node-uuid');
 const axios = require('../../MapStore2/web/client/libs/ajax');
 const {updateHighlighted} = require('../../MapStore2/web/client/actions/highlight');
+const {changeLayerProperties} = require('../../MapStore2/web/client/actions/layers');
 function featureSelectorReset() {
     return {
         type: FEATURE_SELECTOR_RESET
@@ -63,6 +64,7 @@ function checkFeatureLimit(reqId, add, max, state, config, dispatch) {
 function loadFeatures(url, filter, add, max) {
     const reqId = uuid.v1();
     return (dispatch, getState) => {
+        dispatch(changeLayerProperties("featureselector", {visibility: true}));
         dispatch(newGetFeatureRequest(reqId, filter));
         return axios.post(url, filter, {
             timeout: 10000,

@@ -51,7 +51,8 @@ const WMSCrossLayerFilter = React.createClass({
                 onResetThisZone: () => {},
                 changeMapView: () => {},
                 setBaseCqlFilter: () => {},
-                changeZoomArgs: () => {}
+                changeZoomArgs: () => {},
+                changeLayerProperties: () => {}
             }
         };
     },
@@ -157,6 +158,7 @@ const WMSCrossLayerFilter = React.createClass({
     reset(all) {
         this.props.actions.changeZoomArgs(null);
         if (all) {
+            this.props.actions.changeLayerProperties("featureselector", {visibility: true});
             this.props.actions.onReset();
         }
         let filter;

@@ -25,7 +25,8 @@ const AdvancedFilter = React.createClass({
         changeLayerProperties: React.PropTypes.func,
         createFilterConfig: React.PropTypes.func,
         activeLayer: React.PropTypes.object,
-        error: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.bool, React.PropTypes.object])
+        error: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.bool, React.PropTypes.object]),
+        showDefaultVisibility: React.PropTypes.func
     },
     contextTypes: {
         messages: React.PropTypes.object
@@ -43,7 +44,8 @@ const AdvancedFilter = React.createClass({
             simpleFilterFieldUpdate: () => {},
             toggleFilter: () => {},
             changeLayerProperties: () => {},
-            createFilterConfig: () => {}
+            createFilterConfig: () => {},
+            showDefaultVisibility: () => {}
         };
     },
     componentDidMount() {
@@ -115,6 +117,7 @@ const AdvancedFilter = React.createClass({
     },
     setFilter() {
         if (this.props.fieldsConfig && this.props.fieldsConfig && this.props.fieldsConfig.length > 0) {
+            this.props.showDefaultVisibility();
             let filter = this.props.baseCqlFilter + " AND " + FilterUtils.toCQLFilter({simpleFilterFields: this.props.fieldsConfig});
             this.props.toggleFilter(true, filter);
             let params = {...this.props.params, cql_filter: filter};
@@ -122,6 +125,7 @@ const AdvancedFilter = React.createClass({
         }
     },
     removeFilter() {
+        this.props.showDefaultVisibility();
         this.props.toggleFilter(false);
         let params = {...this.props.params, cql_filter: this.props.baseCqlFilter};
         this.props.changeLayerProperties(this.props.activeLayer, {params: params}, this.props.baseCqlFilter);
